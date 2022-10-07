@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Slider from "react-slick";
+import axios from "axios";
 
-export default function mainslider() {
+export default function Mainslider() {
   var settings = {
     dots: true,
     infinite: true,
@@ -11,32 +12,46 @@ export default function mainslider() {
     lazyLoad: true,
     autoplay: true,
     autoplaySpeed: 2000,
-    arrows:true
+    arrows: true,
   };
 
-  const images = [
-    {
-      id: 1,
-      src: "https://img.poorvika.com/cdn-cgi/image/width=1900,height=600,quality=75/HomePage-Banner/Main-Banner/Deals/may/Festival-Deals-Offer-at-poorvika-4.jpg",
-      alt: "Image 1",
-    },
-    {
-      id: 2,
-      src: "https://img.poorvika.com/cdn-cgi/image/width=1900,height=600,quality=75/HomePage-Banner/Main-Banner/Samsung/September/Samsung-Galaxy-Z-Flip4-Available-at-Poorvika-1.jpg",
-      alt: "Image 2 ",
-    },
-    {
-      id: 3,
-      src: "https://img.poorvika.com/cdn-cgi/image/width=1900,height=600,quality=75/HomePage-Banner/Main-Banner/Samsung/September/samsung-Appliance-offer-at-poorvika.jpg",
-      alt: "Image 3",
-    },
-  ];
+  const [images, setData] = React.useState([]);
+
+  useEffect(() => {
+    axios.get("//127.0.0.1:8888/tasks/").then((res) => {
+      setData(res.data);
+      console.log(res);
+    }).catch((error) => {
+      // Error
+      if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          // console.log(error.response.data);
+          // console.log(error.response.status);
+          // console.log(error.response.headers);
+      } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the 
+          // browser and an instance of
+          // http.ClientRequest in node.js
+          console.log(error.request);
+      } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+      }
+      console.log(error.config);
+  });
+  });
 
   return (
     <Slider {...settings}>
       {images.map((item) => (
-        <div key={item.id}>
-          <img className="banner_image_responsive" src={item.src} alt={item.alt} />
+        <div key={item._id}>
+          <img
+            className="banner_image_responsive"
+            src={item.name}
+            //alt={item.alt}
+          />
         </div>
       ))}
     </Slider>

@@ -57,8 +57,8 @@ export default function navbar() {
       <div className="dropmenu">
         <div className="desktopmenu">
           {links.map((item) => (
-            <div className="desktopmenu_li">
-              <a rel="canonical" href={item.link} key={item.id}>
+            <div className="desktopmenu_li" key={item.id}>
+              <a rel="canonical" href={item.link}>
                 {item.name}
               </a>
               <HmeNavDrop />
